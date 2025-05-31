@@ -1,0 +1,34 @@
+@startuml SysA
+title System Architecture
+
+node "Html client" {
+    component media_player <<react component>>
+    component cluster <<react component>>
+}
+
+node "Spring services" {
+    component MediaService <<spring service>>
+    component ClusterService <<spring service>>
+}
+
+node "Database" {
+    component MediaDatabase
+}
+
+node "Message Queue Bus" {
+    component Kafka <<service>>
+}
+
+node "Test Backend" {
+  component TestBackendUI <<QT>>
+}
+
+media_player -down-> MediaService: RestFul
+cluster -down-> ClusterService: WebSocket
+
+MediaService -left-> MediaDatabase
+MediaService -down-> Kafka
+ClusterService -down-> Kafka
+
+TestBackendUI -up-> Kafka
+@enduml
