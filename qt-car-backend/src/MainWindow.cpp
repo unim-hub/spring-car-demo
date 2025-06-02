@@ -7,6 +7,7 @@
 #include <QLineEdit>
 #include <QPushButton>
 #include <QThread>
+#include <QSlider>
 
 namespace com {
 namespace continental {
@@ -18,8 +19,8 @@ MainWindow::MainWindow(QWidget *parent)
     mBusConnected(false),
     mBusConnection(nullptr),
     mSpeedLabel(nullptr),
-    mSpeedEdit(nullptr),
-    mSendSpeed(nullptr),
+    mSpeedValue(nullptr),
+    mSpeedSlider(nullptr),
     mKafkaConf(nullptr),
     mKafkaProducer(nullptr)
 {
@@ -30,14 +31,16 @@ MainWindow::MainWindow(QWidget *parent)
     QObject::connect(mBusConnection, &QPushButton::clicked, this, &MainWindow::OnConnectClicked);
 
     mSpeedLabel = new QLabel(tr("Speed: "), parent);
-    mSpeedLabel->setFixedWidth(150);
+    mSpeedLabel->setFixedWidth(50);
 
-    mSpeedEdit = new QLineEdit("0", parent);
-    mSpeedEdit->setFixedWidth(50);
+    mSpeedValue = new QLabel("0 km/h", parent);
+    mSpeedValue->setFixedWidth(100);
 
-    mSendSpeed = new QPushButton(tr("Send Speed"), parent);
-    mSendSpeed->setFixedWidth(100);
-    QObject::connect(mSendSpeed, &QPushButton::clicked, this, &MainWindow::OnSpeedClicked);
+    mSpeedSlider = new QSlider(Qt::Horizontal, parent);
+    mSpeedSlider->setFixedWidth(150);
+    mSpeedSlider->setRange(0, 300);
+    mSpeedSlider->setTickInterval(1);
+    QObject::connect(mSpeedSlider, &QSlider::valueChanged, this, &MainWindow::OnSpeedChanged);
 
     mFormLayout = new QGridLayout(this);
     mFormLayout->setSpacing(1);
@@ -68,8 +71,7 @@ void MainWindow::OnConnectClicked()
         if (mKafkaProducer)
         {
             mBusConnected = true;
-            mSendSpeed->setEnabled(true);
-            mSpeedEdit->setEnabled(true);
+            mSpeedSlider->setEnabled(true);
             mBusConnection->setText(tr("Disconnect"));
         }
         else
@@ -79,8 +81,7 @@ void MainWindow::OnConnectClicked()
     }
     else
     {
-        mSendSpeed->setEnabled(false);
-        mSpeedEdit->setEnabled(false);
+        mSpeedSlider->setEnabled(false);
         mBusConnection->setText(tr("Connect"));
 
         delete mKafkaProducer;
@@ -91,23 +92,14 @@ void MainWindow::OnConnectClicked()
     }
 }
 
-void MainWindow::OnSpeedClicked()
+void MainWindow::OnSpeedChanged(int speed)
 {
+    mSpeedValue->setText(QString("%1 km/h").arg(speed));
     if (mKafkaProducer)
     {
-        QString strMinPort = mSpeedEdit->text();
-        bool bOk = false;
-        int speed = strMinPort.toUInt(&bOk, 10);
-        if (bOk)
-        {
-            QString message = QString("{\"%1\":%2,\"%3\":%4}").arg(EVENT_FIELD_TYPE.c_str()).arg(EVENT_TYPE_SPEED).arg(EVENT_FIELD_SPEED.c_str()).arg(speed);
-            std::string strMessage = message.toStdString();
-            SendMessage(strMessage); // Wait for delivery
-        }
-        else
-        {
-            //Display error
-        }
+        QString message = QString("{\"%1\":%2,\"%3\":%4}").arg(EVENT_FIELD_TYPE.c_str()).arg(EVENT_TYPE_SPEED).arg(EVENT_FIELD_SPEED.c_str()).arg(speed);
+        std::string strMessage = message.toStdString();
+        SendMessage(strMessage); // Wait for delivery
     }
 }
 
@@ -119,9 +111,9 @@ void MainWindow::SendMessage(std::string strMessage)
         nullptr, 0, 0, nullptr, nullptr);
 
     if (resp != RdKafka::ERR_NO_ERROR)
+    {
         LOGE << "Produce failed: " << RdKafka::err2str(resp) << std::endl;
-    else
-        LOGI << "Message produced." << std::endl;
+    }
 
     mKafkaProducer->flush(1000);
 }
@@ -144,8 +136,8 @@ QGroupBox* MainWindow::CreateSpeedPanel()
 
     QHBoxLayout *layout = new QHBoxLayout;
     layout->addWidget(mSpeedLabel);
-    layout->addWidget(mSpeedEdit);
-    layout->addWidget(mSendSpeed);
+    layout->addWidget(mSpeedValue);
+    layout->addWidget(mSpeedSlider);
     layout->addStretch(1);
     layout->setAlignment(Qt::AlignLeft);
     gb->setLayout(layout);

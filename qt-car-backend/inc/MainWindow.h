@@ -9,6 +9,7 @@ class QGridLayout;
 class QLabel;
 class QLineEdit;
 class QPushButton;
+class QSlider;
 
 namespace com {
 namespace continental {
@@ -24,7 +25,7 @@ namespace aprojector {
 
     private slots:
         void OnConnectClicked();
-        void OnSpeedClicked();
+        void OnSpeedChanged(int speed);
 
     private:
         const std::string VEHICLE_TOPIC = "vehicle-service";
@@ -46,8 +47,8 @@ namespace aprojector {
         QPushButton *mBusConnection;
 
         QLabel *mSpeedLabel;
-        QLineEdit *mSpeedEdit;
-        QPushButton *mSendSpeed;
+        QLabel *mSpeedValue;
+        QSlider *mSpeedSlider;
 
         RdKafka::Conf* mKafkaConf;
         RdKafka::Producer* mKafkaProducer;
