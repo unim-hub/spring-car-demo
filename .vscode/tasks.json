@@ -30,6 +30,21 @@
         }
       },
       "problemMatcher": []
+    },
+    {
+      "label": "Build UI-Front" ,
+      "type": "shell",
+      "command": "./build-front.sh",
+      "group": "build",
+      "options": {
+        "cwd": "${workspaceFolder}",
+        "env": {
+          "JAVA_HOME": "${env:HOME}/Android/android-studio/jbr/",
+          "NVM_DIR": "${env:HOME}/.nvm",
+          "PATH": "${env:HOME}/Android/android-studio/jbr/bin:${env:HOME}/.nvm/versions/node/v22.14.0/bin:${env:PATH}"
+        }
+      },
+      "problemMatcher": []
     }
   ]
 }

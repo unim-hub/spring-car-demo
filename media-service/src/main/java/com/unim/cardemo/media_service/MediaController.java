@@ -3,6 +3,9 @@ package com.unim.cardemo.media_service;
 import java.util.Arrays;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.lang.NonNull;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -10,22 +13,23 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class MediaController {
 
+  private final Logger Log = LoggerFactory.getLogger(MediaServiceConfig.class);
+  private final MediaService mMediaService;
+
+  public MediaController(@NonNull final MediaService mediaService) {
+    mMediaService = mediaService;
+  }
+
   @GetMapping("/playLists")
   public List<PlayList> playLists() {
-      return Arrays.asList(
-        new PlayList(1, "playlist-1", null),
-        new PlayList(2, "playlist-2", null)
-      );
+    Log.info("playLists");
+    return mMediaService.getPlayList();
   }
   
   @GetMapping("/playList")
-  public PlayList playList(@RequestParam Integer playListId) {
-      return new PlayList(playListId, "playlist-" + playListId.intValue(), 
-                          new Song[]{
-                            new Song(1, "title-1", "singer-1", "rock"),
-                            new Song(2, "title-2", "singer-2", "rock"),
-                            new Song(3, "title-3", "singer-3", "rock")
-                          });
+  public List<Song> playList(@RequestParam Integer playListId) {
+    Log.info("playList:playListId=" + playListId);
+    return mMediaService.getPlayList(playListId);
   }
   
 }

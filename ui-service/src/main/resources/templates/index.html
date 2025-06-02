@@ -4,15 +4,18 @@
     <title>Car demo</title>
     <script th:inline="javascript">
             window.CAR_DEMO_CONFIG = {
-                media_servie: [[${media_service_url}]],
+                media_service: [[${media_service_url}]],
+                media_service_playlists: [[${media_service_playlists}]],
+                media_service_playlist: [[${media_service_playlist}]],
+                media_service_song: [[${media_service_song}]],
                 vehicle_service: [[${vehicle_service_url}]],
                 vehicle_ws: [[${vehicle_ws_url}]]
             };
     </script>
 </head>
 <body>
-    <div id="media_container"></div>
     <div id="vehicle_container"></div>
+    <div id="media_container"></div>
     <script src="/js/car_demo.js"></script>
 </body>
 </html>

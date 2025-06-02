@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 
-const VehicleApp = ({ carDemoConfig }) => {
+function VehicleApp ({ carDemoConfig }) {
   const [speed, setSpeed] = useState([]);
   const [connectionStatus, setConnectionStatus] = useState('Connecting...');
 
