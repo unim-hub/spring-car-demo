@@ -1,0 +1,20 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Build Car Demo",
+      "type": "shell",
+      "command": "./build.sh",
+      "group": "build",
+      "options": {
+        "cwd": "${workspaceFolder}",
+        "env": {
+          "JAVA_HOME": "${env:HOME}/Android/android-studio/jbr/",
+          "NVM_DIR": "${env:HOME}/.nvm",
+          "PATH": "${env:HOME}/Android/android-studio/jbr/bin:${env:HOME}/.nvm/versions/node/v22.14.0/bin:${env:PATH}"
+        }
+      },
+      "problemMatcher": []
+    }
+  ]
+}

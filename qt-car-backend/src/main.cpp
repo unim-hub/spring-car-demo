@@ -1,6 +1,8 @@
-#include "mainwindow.h"
+#include "MainWindow.h"
 
 #include <QApplication>
+
+using namespace com::continental::aprojector;
 
 int main(int argc, char *argv[])
 {

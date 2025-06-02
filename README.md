@@ -25,20 +25,14 @@
 bin/kafka-server-start.sh config/server.properties
 ```
 
-3. Test messages
+3. Test Vehicle messages
 
-  3.1 Register topic
+  3.1 Open producer console for vehicle-service
 ```shell
-  bin/kafka-topics.sh --create --topic test-topic --bootstrap-server localhost:9092 --partitions 1 --replication-factor 1
+  bin/kafka-console-producer.sh --topic vehicle-service --bootstrap-server localhost:9092
 ```
 
-  3.2 Send message 
+  3.2 Optional: Open consumer console for vehicle-service
 ```shell
-  bin/kafka-console-producer.sh --topic test-topic --bootstrap-server localhost:9092
+  bin/kafka-console-producer.sh --topic vehicle-service --bootstrap-server localhost:9092
 ```
-
-  3.3 Read message
-```shell
-  bin/kafka-console-consumer.sh --topic test-topic --from-beginning --bootstrap-server localhost:9092
-```
-
