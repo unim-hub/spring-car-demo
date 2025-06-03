@@ -5,34 +5,57 @@
 - [Web Car Infortainment demo.](#web-car-infortainment-demo)
 - [Architecture](#architecture)
   - [Component overview](#component-overview)
-- [Prconditions](#prconditions)
+- [Preconditions](#preconditions)
   - [Run Kafka](#run-kafka)
+- [Build instructions](#build-instructions)
+  - [Build UI frontend](#build-ui-frontend)
+  - [Build all services](#build-all-services)
+  - [Build qt-car-backend](#build-qt-car-backend)
+- [Run Car Demo](#run-car-demo)
+
 
 
 ## Architecture
 ### Component overview
-
-## Prconditions:
-### Run Kafka
+![System overview](./model/SysA_Overview.png)
+## Preconditions:
+### Run Kafka message bus
 
 1. Kafka Start Zookeeper
 ```shell
-  bin/zookeeper-server-start.sh config/zookeeper.properties
+  [Kafka dist]/bin/zookeeper-server-start.sh config/zookeeper.properties
 ```
 
 2. Start Kafka Broker
 ```shell
-bin/kafka-server-start.sh config/server.properties
+  [Kafka dist]/bin/kafka-server-start.sh config/server.properties
 ```
 
-3. Test Vehicle messages
+## Build instructions
+### Build UI frontend
 
-  3.1 Open producer console for vehicle-service
+Build ui-front and copy it to ui-service 
 ```shell
-  bin/kafka-console-producer.sh --topic vehicle-service --bootstrap-server localhost:9092
+  ./build-front.sh
+```
+or from VSCode (Ctrl-B -> Build UI-Front)
+
+### Build all services
+Build from shell
+```shell
+  ./build.sh
+```
+or from VSCode (Ctrl-B -> Build Car-Demo)
+
+### Build qt-car-backend
+Build from shell
+```shell
+  cd qt-car-backend
+  cmake .
+  make
 ```
 
-  3.2 Optional: Open consumer console for vehicle-service
-```shell
-  bin/kafka-console-producer.sh --topic vehicle-service --bootstrap-server localhost:9092
-```
+## Run Car Demo
+1. Run qt-car-backend
+2. Run ui-service, media-service, vehicle-service in Spring Boot Dashboard
+3. Open http://localhost:8080/
