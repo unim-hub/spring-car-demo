@@ -13,6 +13,10 @@ popd
 # Optionally, copy frontend build into Spring Boot static resources
 echo "Copying ui-front build to ui-service..."
 rm -rf ui-service/src/main/resources/static/js/car_demo.js
+rm -rf ui-service/src/main/resources/static/css/car_demo.css
+mkdir -p ui-service/src/main/resources/static/js
 cp -r ui-front/build/static/js/*.js ui-service/src/main/resources/static/js/car_demo.js
+mkdir -p ui-service/src/main/resources/static/css
+cp -r ui-front/build/static/css/*.css ui-service/src/main/resources/static/css/car_demo.css
 
 echo "Build UI complete."

@@ -32,4 +32,10 @@ public class MediaController {
     return mMediaService.getPlayList(playListId);
   }
   
+  @GetMapping("/song")
+  public List<SongTextLine> song(@RequestParam Integer songId) {
+    Log.info("song:songId=" + songId);
+    return mMediaService.getSongText(songId);
+  }
+  
 }

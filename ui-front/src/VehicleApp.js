@@ -1,5 +1,4 @@
-// File: WebSocketViewer.jsx
-
+import './App.css';
 import React, { useEffect, useState } from 'react';
 
 function VehicleApp ({ carDemoConfig }) {

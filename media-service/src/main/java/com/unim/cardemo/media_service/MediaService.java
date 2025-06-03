@@ -42,6 +42,18 @@ public class MediaService implements CommandLineRunner {
     return mJdbcTemplate.query(sql, mapper, playListId);
   }
 
+  public List<SongTextLine> getSongText(Integer songId) {
+    String sql = "SELECT song_id, start_time, end_time, line FROM song_text WHERE song_id = ?";
+
+    RowMapper<SongTextLine> mapper = (rs, rowNum) -> new SongTextLine(
+        rs.getInt("song_id"),
+        rs.getInt("start_time"),
+        rs.getInt("end_time"),
+        rs.getString("line"));
+
+    return mJdbcTemplate.query(sql, mapper, songId);
+  }
+
   @Override
   public void run(String... args) throws Exception {
     Log.info("Initialize media database");
@@ -59,7 +71,7 @@ public class MediaService implements CommandLineRunner {
           +
           "FOREIGN KEY (playlist_id) REFERENCES playlist(playlist_id))");
       mJdbcTemplate.execute("CREATE TABLE song_text (" +
-          "song_id INT, start_time BIGINT, end_time BIGINT,line TEXT, " +
+          "song_id INT, start_time INT, end_time INT,line TEXT, " +
           "PRIMARY KEY (song_id, start_time)," +
           "FOREIGN KEY (song_id) REFERENCES song(song_id))");
 

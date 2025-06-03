@@ -1,7 +1,9 @@
+import "./App.css";
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import VehicleApp from './VehicleApp';
 import MediaApp from './MediaApp';
+
 
 const carDemoConfig = window.CAR_DEMO_CONFIG;
 
