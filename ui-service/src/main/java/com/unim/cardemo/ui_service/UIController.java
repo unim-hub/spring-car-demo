@@ -15,10 +15,7 @@ public class UIController {
 
   @GetMapping("/")
   public String index(Model model) {
-    model.addAttribute("media_service_url", "http://localhost:8081");
-    model.addAttribute("media_service_playlists", "http://localhost:8081/playLists");
-    model.addAttribute("media_service_playlist", "http://localhost:8081/playList?playListId=");
-    model.addAttribute("media_service_song", "http://localhost:8081/song?songId=");
+    model.addAttribute("media_service_config", "http://localhost:8081/config");
     model.addAttribute("vehicle_service_url", "http://localhost:8082");
     model.addAttribute("vehicle_ws_url", "ws://localhost:8082/vehicle-ws");
     return "index";

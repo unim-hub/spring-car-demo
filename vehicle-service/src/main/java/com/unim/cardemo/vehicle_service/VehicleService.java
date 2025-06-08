@@ -16,9 +16,9 @@ public class VehicleService extends TextWebSocketHandler{
   private static final Logger Log = LoggerFactory.getLogger(VehicleService.class);
 
   private final static int EVENT_TYPE_SPEED = 1;
+  private final static int EVENT_TYPE_GEAR = 2;
 
   private final static String EVENT_FIELD_TYPE = "eventType";
-  private final static String EVENT_FIELD_SPEED = "speed";
 
   private final ObjectMapper mObjectMapper;
   private final VehicleWebSocketHandler mVehicleWebSocketHandler;
@@ -30,14 +30,16 @@ public class VehicleService extends TextWebSocketHandler{
     mObjectMapper = new ObjectMapper();
   }
  
-  @KafkaListener(topics = "vehicle-service")
+  @KafkaListener(topics = "vehicle-service", groupId = "vehicle-group-id")
   public void handleMessage(String message){
+    Log.info("Message:" + message);
     try {
       JsonNode json = mObjectMapper.readTree(message);
       int eventType = json.get(EVENT_FIELD_TYPE).asInt();
       switch (eventType) {
         case EVENT_TYPE_SPEED:
-          handleSpeedMessage(json);
+        case EVENT_TYPE_GEAR:
+          mVehicleWebSocketHandler.sendMessage(json);
           break;
       
         default:
@@ -45,17 +47,6 @@ public class VehicleService extends TextWebSocketHandler{
       }
     } catch (Exception e) {
       Log.error("Read Speed message fails: " + message + "\n", e);
-    }
-  }
-
-  private void handleSpeedMessage(JsonNode speedMessage) {
-    Log.info("handleSpeedMessage:" + speedMessage);
-    try {
-      int speed = speedMessage.get(EVENT_FIELD_SPEED).asInt();
-      Log.info("handleSpeedMessage: " + speed);
-      mVehicleWebSocketHandler.sendMessage(speedMessage);
-    } catch (Exception e) {
-      Log.error("Read Speed message fails: ", e);
     }
   }
 }

@@ -1,4 +1,4 @@
-package com.unim.cardemo.media_service;
+package com.unim.cardemo.media_service.entity;
 
 import org.springframework.lang.Nullable;
 

@@ -17,7 +17,37 @@
       "problemMatcher": []
     },
     {
-      "label": "Build UI" ,
+      "label": "Build Media service",
+      "type": "shell",
+      "command": "./build-media.sh",
+      "group": "build",
+      "options": {
+        "cwd": "${workspaceFolder}",
+        "env": {
+          "JAVA_HOME": "${env:HOME}/Android/android-studio/jbr/",
+          "NVM_DIR": "${env:HOME}/.nvm",
+          "PATH": "${env:HOME}/Android/android-studio/jbr/bin:${env:HOME}/.nvm/versions/node/v22.14.0/bin:${env:PATH}"
+        }
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Build Vehicle service",
+      "type": "shell",
+      "command": "./build-vehicle.sh",
+      "group": "build",
+      "options": {
+        "cwd": "${workspaceFolder}",
+        "env": {
+          "JAVA_HOME": "${env:HOME}/Android/android-studio/jbr/",
+          "NVM_DIR": "${env:HOME}/.nvm",
+          "PATH": "${env:HOME}/Android/android-studio/jbr/bin:${env:HOME}/.nvm/versions/node/v22.14.0/bin:${env:PATH}"
+        }
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Build UI",
       "type": "shell",
       "command": "./build-ui.sh",
       "group": "build",
@@ -32,7 +62,7 @@
       "problemMatcher": []
     },
     {
-      "label": "Build UI-Front" ,
+      "label": "Build UI-Front",
       "type": "shell",
       "command": "./build-front.sh",
       "group": "build",

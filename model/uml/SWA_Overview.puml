@@ -14,7 +14,8 @@ node "Spring services" {
     component ClusterService <<spring service>>
 }
 
-database MediaDatabase {
+database MediaDatabase <<SQL, MongoDB>>{
+
 }
 
 node "Message Queue Bus" {
@@ -26,11 +27,11 @@ node "Test Backend" {
 }
 
 
-media_player -down-> MediaService: RestFul:Media lists\nWebSocket:Audio
+media_player -down-> MediaService: RestFul:Media lists\nSSE:Player states
 cluster -down-> ClusterService: WebSocket
 
 MediaService -left-> MediaDatabase: Media Lists
-MediaService -down-> Kafka: Audio\nstates
+MediaService -down-> Kafka: Speed\nPDC\nGear
 ClusterService -down-> Kafka: Speed\nPDC\nGear
 
 TestBackendUI -up-> Kafka: Simulate:\nSpeed\nPDC\nGear

@@ -19,4 +19,4 @@ cp -r ui-front/build/static/js/*.js ui-service/src/main/resources/static/js/car_
 mkdir -p ui-service/src/main/resources/static/css
 cp -r ui-front/build/static/css/*.css ui-service/src/main/resources/static/css/car_demo.css
 
-echo "Build UI complete."
+echo "Build ui-front complete."
