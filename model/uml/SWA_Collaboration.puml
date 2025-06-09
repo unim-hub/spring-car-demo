@@ -1,5 +1,5 @@
 @startuml SysA
-title System Architecture: Component view
+title System Architecture: Component Collaboration
 
 node "Html client" {
     component ui_front <<index.html>> {
@@ -26,13 +26,15 @@ node "Test Backend" {
   component TestBackendUI <<QT>>
 }
 
-media_player .down.> MediaService: use
-cluster .down.> ClusterService: use
+media_player -down-> MediaService: RestFul:\nMedia lists
+MediaService -up-> media_player: SSE:\nPlayerState\nnotifications
 
-MediaService .left.> MediaDatabase: use
-MediaService .down.> Kafka: use
-ClusterService .down.> Kafka: use
+ClusterService -down-> cluster: WebSocket:\nVehicle updates\nSpeed, PDC, Gear
 
-TestBackendUI .up.> Kafka: use
+MediaService <-left-> MediaDatabase: SQL or MongoDB:\nMedia Lists
+MediaService <-down- Kafka: Consumer:\nPDC
+ClusterService <-down- Kafka: Consumer:Speed\nPDC\nGear
+
+TestBackendUI -up-> Kafka: Producer:\nSpeed\nPDC\nGear
 
 @enduml
