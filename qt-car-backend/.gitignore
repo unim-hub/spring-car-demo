@@ -72,3 +72,9 @@ CMakeLists.txt.user*
 *.dll
 *.exe
 
+build
+CMakeFiles
+qt-car-backend*
+cmake_install.cmake
+CMakeCache.txt
+

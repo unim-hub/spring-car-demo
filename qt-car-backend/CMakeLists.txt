@@ -25,10 +25,10 @@ set(PROJECT_SOURCES
 
 add_executable(qt-car-backend ${PROJECT_SOURCES})
 
-include_directories(${CMAKE_SOURCE_DIR}/inc)
+target_include_directories(qt-car-backend PRIVATE ${CMAKE_SOURCE_DIR}/inc)
 
-include_directories(${RDKAFKA_INCLUDE_DIRS})
-link_directories(${RDKAFKA_LIBRARY_DIRS})
+target_include_directories(qt-car-backend PRIVATE ${RDKAFKA_INCLUDE_DIRS})
+target_link_directories(qt-car-backend PRIVATE ${RDKAFKA_LIBRARY_DIRS})
 
 target_link_libraries(qt-car-backend PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
 target_link_libraries(qt-car-backend PRIVATE ${RDKAFKA_LIBRARIES})
